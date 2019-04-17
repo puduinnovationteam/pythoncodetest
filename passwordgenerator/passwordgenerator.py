@@ -1,111 +1,79 @@
 import random
 import string
 
+
 password = ""
 characters = ""
+category = ""
+passwordSize = 0;
+
+def validateInput(category):
+  global characters
+  global password
+  global passwordSize
+  condition = True
+  character = ""
+  if category == 'upperCase':
+    character = string.ascii_uppercase
+  elif category == 'digits':
+    character = string.digits
+  else:
+    character  = string.punctuation;
+
+  while condition:
+    userInput = input("")
+  
+    if(userInput == 'Y' or userInput == 'y' or userInput == 'N' or userInput == 'n' ):
+      if(userInput == 'Y'or userInput == 'y'):
+        password += random.choice(character)
+        passwordSize = passwordSize - 1
+        characters += character
+        condition = False  
+      if(userInput == 'N'or userInput == 'n'):
+        condition = False
+    else:
+      print("Please respond with Y or N ")
+
+
 
 print("\n*******Password Generator*******\n")
 print("Please answer the following questions to generate a password!\n")
 
-print("1. Please enter the minimum length of your password:")
+
 while True:
+  print("\n1. Please enter the length of your password:")
   try:
-    passwordMinSize = int(input(""))
-    if(passwordMinSize<1):
+    passwordSize = int(input(""))
+
+    if(passwordSize<8):
+      print("Recommended minimum password length is 8")
+      continue
+    if(passwordSize>20):
+      print("Recommended maximum password length is 20")
+      continue
+    elif(passwordSize<1):
       print("Enter a value greater than 0!!")
       continue
     break
   except ValueError:
     print("Please try again with a number!!")
 
-print("\n2. Please enter the maximum length of your password:")
-while True:
-  try:
-    passwordMaxSize = int (input(""))
-    if(passwordMaxSize<passwordMinSize):
-      print("Enter a value greater than the minimum length!!")
-      continue
-    break
-  except ValueError:
-    print("Please try again with a number!!")
-
 print("\n3. Do you want to include upper-case letters in your password? (Y/N)")
-while True:
-  upperCaseLetters = input("")
+category = "upperCase"
+validateInput(category)
 
-  if(upperCaseLetters == 'Y' or upperCaseLetters == 'y' or upperCaseLetters == 'N' or upperCaseLetters == 'n' ):
 
-    if(upperCaseLetters == 'Y'or upperCaseLetters == 'y'):
-      characters += string.ascii_uppercase
-      break
-    if(upperCaseLetters == 'N'or upperCaseLetters == 'n'):
-      break
-  else:
-    print("Please respond with Y or N ")
+print("\n4. Do you want to include digits in your password? (Y/N)")
+category = "digits"
 
-print("\n4. Do you want to include lower-case letters in your password? (Y/N)")
-while True:
-  lowerCaseLetters = input("")
+validateInput(category)
 
-  if(lowerCaseLetters == 'Y' or lowerCaseLetters == 'y' or lowerCaseLetters == 'N' or lowerCaseLetters == 'n' ):
+print("\n5. Do you want to include special characters in your password? (Y/N)")
+category = "specialCharacters"
 
-    if(lowerCaseLetters == 'Y'or lowerCaseLetters == 'y'):
-      characters += string.ascii_lowercase
-      break
-    if(lowerCaseLetters == 'N'or lowerCaseLetters == 'n'):
-        break
-
-  else:
-    print("Please respond with Y or N ")
-
-print("\n5. Do you want to include digits in your password? (Y/N)")
-while True:
-  digits = input("")
-
-  if(digits == 'Y' or digits == 'y' or digits == 'N' or digits == 'n' ):
-
-    if(digits == 'Y'or digits == 'y'):
-      characters += string.digits
-      break
-    if(digits == 'N'or digits == 'n'):
-      break    
-
-  else:
-    print("Please respond with Y or N ")
-
-print("\n6. Do you want to include special characters in your password? (Y/N)")
-while True:
-  specialCharacters = input("")
-
-  if(specialCharacters == 'Y' or specialCharacters == 'y' or specialCharacters == 'N' or specialCharacters == 'n' ):
-
-    if(specialCharacters == 'Y'or specialCharacters == 'y'):
-      characters += string.punctuation
-      break
-    if(specialCharacters == 'N'or specialCharacters == 'n'):
-      break    
-
-  else:
-    print("Please respond with Y or N ")
-
-print("\n7. Do you want to include white space in your password? (Y/N)")
-while True:
-  whiteSpace = input("")
-
-  if(whiteSpace == 'Y' or whiteSpace == 'y' or whiteSpace == 'N' or whiteSpace == 'n' ):
-
-    if(whiteSpace == 'Y'or whiteSpace == 'y'):
-      characters += string.whitespace
-      break
-    if(whiteSpace == 'N'or whiteSpace == 'n'):
-      break    
-
-  else:
-    print("Please respond with Y or N ")
-
-passwordSize = random.randint(passwordMinSize,passwordMaxSize)
+validateInput(category)
 
 for i in range(passwordSize):
-        password += random.choice(characters)
+  password += random.choice(characters+string.ascii_lowercase)
 
 print("\nThe length of the password is " , passwordSize, " and the generated password is "+ password)
